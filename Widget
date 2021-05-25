@@ -1,0 +1,54 @@
+import pandas as pd
+
+df = pd.read_excel("C:/Users/ben.allen/Documents/TOUR ROOM SHAFT STOCK.xlsx", sheet_name = 1)
+
+type(df)
+
+df
+
+conda install -c conda-forge ipywidgets
+
+pip install ipywidgets
+
+import ipywidgets as widgets
+
+widgets.IntSlider(
+    min=0,
+    max=10,
+    description='Slider',
+    value=3)
+
+from IPython.display import display
+
+slider = widgets.IntSlider()
+text = widgets.IntText()
+display(slider, text)
+widgets.jslink((slider, 'value'), (text, 'value'))
+
+slider.value
+
+import numpy as np
+
+ALL = 'ALL'
+
+def unique_sorted_values_plus_ALL(array):
+    unique = array.unique().tolist()
+    unique.sort()
+    unique.insert(0,ALL)
+    return unique
+
+dropdown_torque = widgets.Dropdown(options = unique_sorted_values_plus_ALL(df.TORQUE))
+
+def dropdown_torque_eventhandler(change):
+    if (change.new == ALL):
+        display(df)
+    else:
+        display(df[df.TORQUE == change.new])
+
+dropdown_torque.observe(dropdown_torque_eventhandler, names = 'value')
+
+display(dropdown_torque)
+
+input_widgets = widgets.HBox([dropdown_torque])
+
+display(input_widgets)
